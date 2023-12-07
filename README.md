@@ -38,9 +38,12 @@ Noimenu is in a working state with pactl, however more features are planned, suc
 ## powmenu
 Powmenu is a power-menu made in bemenu, with the option to Shutdown, Restart, Sleep, and Cancel.
 
-Powmenu is in a working state, currently works with loginctl.
+Powmenu is in a working state[^3], currently works with loginctl.
+
+- Large but listen in footnote.
 
 ![image](https://github.com/alyssa-sudo/bemenu-desktop/assets/83582297/b361cbf2-dd20-4075-afca-a1a1c5257769)
 
 [^1]: Dmenu support is a planned feature and is secondary to bemenu support.
 [^2]: Starmenu is going to be a large undertaking being that if possible, I will create an entire settings app within bemenu.
+[^3]: Use with caution, as powmenu as of now, sees "return" on anything but "Cancel" as selecting an option, YOU WILL ACCIDENTALLY SHUT OFF YOUR PC IF YOU DO NOT ACKNOWLEDGE THIS.
