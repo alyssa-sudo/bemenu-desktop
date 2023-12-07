@@ -1,0 +1,67 @@
+#!/bin/bash
+
+function submenu {
+    options="Run\nUninstall\nCancel"
+    run=$(echo -e "$options" | bemenu -n -b -M 0 -p "What to do:" -H 45 --ch 15 --cw 2 --fn "Source Sans 3 Bold 10" --hp 5 --tb "#19191e" --fb "#19191e" --nb "#19191e" --sb "#19191e" --hb "#19191e" --fbb "#19191e" --ab "#19191e" --tf "#9999a8" --hf "#505a82" --nf "#9999a8" --fbf "#9999a8" --af "#9999a8")
+    case "$run" in
+        "Run")
+            run_command
+            ;;
+        "Uninstall")
+            uninstall
+            ;;
+        "Cancel")
+            return
+    esac
+}
+
+function apps {
+    app=$(j4-dmenu-desktop --no-exec --dmenu="bemenu -n -b -M 0 -p 'Run App:' -H 45 --ch 15 --cw 2 --fn 'Source Sans 3 Bold 10' --hp 5 --tb '#19191e' --fb '#19191e' --nb '#19191e' --sb '#19191e' --hb '#19191e' --fbb '#19191e' --ab '#19191e' --tf '#9999a8' --hf '#505a82' --nf '#9999a8' --fbf '#9999a8' --af '#9999a8'")
+    execute=$(echo "$app" | sh)  # Execute the chosen app
+    echo "$execute"
+}
+
+function programs {
+    run=$(bemenu-run -n -b -M 0 -p "Run Program:" -H 45 --ch 15 --cw 2 --fn "Source Sans 3 Bold 10" --hp 5 --tb "#19191e" --fb "#19191e" --nb "#19191e" --sb "#19191e" --hb "#19191e" --fbb "#19191e" --ab "#19191e" --tf "#9999a8" --hf "#505a82" --nf "#9999a8" --fbf "#9999a8" --af "#9999a8")
+    echo "$run"
+}
+
+function run_command {
+    app=$(apps)
+    program=$(programs)
+    
+    if [ "$app" != "$program" ]; then
+        flatpak run "$app"
+    else
+        echo "$program"
+    fi
+}
+
+function uninstall {
+    program=$(programs)
+    app=$(apps)
+    
+    if [ "$app" == "Run" ]; then
+        flatpak uninstall "$program"
+    else
+        emerge --deselect "$program"
+    fi
+}
+
+function main {
+    options="Files\nApps\nPrograms\nSettings"
+    run=$(echo -e "$options" | bemenu -n -b -M 0 -p "Run:" -H 45 --ch 15 --cw 2 --fn "Source Sans 3 Bold 10" --hp 5 --tb "#19191e" --fb "#19191e" --nb "#19191e" --sb "#19191e" --hb "#19191e" --fbb "#19191e" --ab "#19191e" --tf "#9999a8" --hf "#505a82" --nf "#9999a8" --fbf "#9999a8" --af "#9999a8")
+
+    case "$run" in
+        "Apps")
+			apps
+            ;;
+        "Programs")
+            programs
+            ;;
+        "Cancel")
+            return
+    esac
+}
+
+main "$@"

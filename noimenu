@@ -1,0 +1,14 @@
+#!/bin/bash
+
+function switch_audio {
+    options=$(pactl list sources | grep 'Name: ' | awk '{print $2}' | bemenu -n -b -M 0 -p "Switch Audio Output:" -H 45 --ch 15 --cw 2 --fn "Source Sans 3 Bold 10" --hp 5 --tb "#19191e" --fb "#19191e" --nb "#19191e" --sb "#19191e" --hb "#19191e" --fbb "#19191e" --ab "#19191e" --tf "#9999a8" --hf "#505a82" --nf "#9999a8" --fbf "#9999a8" --af "#9999a8")
+
+    if [[ -n $options ]]; then
+        pactl set-default-sink "$options"
+        pactl list short sink-inputs | while read -r input; do
+            pactl move-sink-input "$(echo $input | cut -f1)" "$options"
+        done
+    fi
+}
+
+switch_audio
